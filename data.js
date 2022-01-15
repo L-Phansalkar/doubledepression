@@ -87,4 +87,4 @@ window.data = {
       qty: 0
     }
   ]
-};
+}

@@ -207,7 +207,7 @@ describe('Slice 2: Unlocking & Rendering Producers', function() {
       qty: 5
     };
 
-    xit('returns a DOM element', function() {
+   xit('returns a DOM element', function() {
       const result = code.makeProducerDiv(producer);
       expect(result).to.be.an('HTMLDivElement');
     });
@@ -401,7 +401,7 @@ describe('Slice 3: Buying Producers & Tick', function() {
       const result = code.getProducerById(data, 'producer_A');
       expect(result).to.be.an('object');
     });
-    xit('returns the correct producer object', function() {
+   xit('returns the correct producer object', function() {
       const testIDs = ['producer_A', 'producer_B', 'producer_C'];
       const results = testIDs.map(testID => code.getProducerById(data, testID));
       expect(results[0].price).to.be.equal(50);
