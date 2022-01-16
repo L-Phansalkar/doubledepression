@@ -599,7 +599,7 @@ describe('Slice 3: Buying Producers & Tick', function() {
     });
 
     // Hint: See https://developer.mozilla.org/en-US/docs/Web/API/Window/alert
-    xit('shows an alert box with the message "Not enough coffee!" only if the player cannot afford the producer', function() {
+    xit('shows an alert box with the message "Not stressed enough - pile on more first!" only if the player cannot afford the producer', function() {
       const spyOnAlert = sinon.spy(window, 'alert');
 
       // This purchase should fail.
