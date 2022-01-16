@@ -1,6 +1,10 @@
 * {
   box-sizing: border-box;
 }
+h1{
+  text-align: center;
+  color: red;
+}
 body {
   margin: 0px;
 }
@@ -9,6 +13,7 @@ body {
   width: 100%;
   height: 100vh;
   min-width: 650px;
+  background-color:burlywood;
 }
 .column {
   margin: 10px;
@@ -35,7 +40,7 @@ body {
 .column-header {
   font-size: 25px;
   position: relative;
-  background-color: rgb(51, 129, 192);
+  background-color: orangered;
   top: 8px;
 }
 #big_coffee {
@@ -56,7 +61,8 @@ body {
 #producer_container {
   padding: 10px;
   overflow: auto;
-  border: 2px rgb(34, 150, 49) solid;
+  background-color: rgb(148, 177, 46);
+  border: 2px red solid;
   border-radius: 5px;
 }
 
@@ -76,7 +82,6 @@ body {
 
 .producer-title {
   font-size: 20px;
-  font-color: pink;
 }
 
 .producer button {

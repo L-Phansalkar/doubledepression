@@ -65,8 +65,8 @@ function makeProducerDiv(producer) {
   </div>
   <div class="producer-column">
     <div>Quantity: ${producer.qty}</div>
-    <div>Coffee/second: ${producer.cps}</div>
-    <div>Cost: ${currentCost} coffee</div>
+    <div>Beats/second: ${producer.cps}</div>
+    <div>Cost: ${currentCost} beats</div>
   </div>
   `;
   containerDiv.innerHTML = html;
@@ -139,7 +139,7 @@ function buyButtonClick(event, data) {
     const buyMachine = event.target.id;
     const machineId = buyMachine.slice(4);
     if (canAffordProducer(data, machineId) === false){
-      window.alert("Not enough cofffee!")
+      window.alert("Not stressed enough - pile more on first!")
     } else {
       attemptToBuyProducer(data,machineId);
       renderProducers(data);
