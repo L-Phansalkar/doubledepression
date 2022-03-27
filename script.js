@@ -99,49 +99,18 @@ function renderChoices(motivationQty) {
  *   SLICE 3
  **************/
 
-function getChoicesByStoryId() {
-  let stId = window.data.storyId - 1;
-  var choices = window.data.story[stId].choices;
-  return choices;
-}
-//   for (let i = 0; i < producerArr.length; i++) {
-//     let currentProducer = producerArr[i];
-//     if (currentProducer.id === producerId) {
-//       return currentProducer;
-//     }
-//   }
-// }
-
-function canAffordChoice(data, producerId) {
-  let currentProducer = getProducerById(data, producerId);
-  if (currentProducer.price <= data.coffee) {
-    return true;
-  } else return false;
-}
-
 function updateCPSView(mood) {
   const cpsIndicator = document.getElementById("cps");
   cpsIndicator.innerText = mood;
 }
 
-// function attemptToBuyChoice(data, producerId) {
-//   let yesNo = canAffordProducer(data, producerId);
-//   if (yesNo == false) {
-//     return yesNo;
-//   } else {
-//     let machine = getProducerById(data, producerId);
-//     machine.qty += 1;
-//     data.coffee -= machine.price;
-//     machine.price = updatePrice(machine.price);
-//     data.totalCPS += machine.cps;
-//     return yesNo;
-//   }
-// }
-
 function buyButtonClick(event, data) {
   if (event.target.tagName === "BUTTON") {
     const num = event.target.id;
     localStorage.setItem("story", num);
+    let motiv = localStorage.getItem("motivation");
+    motiv /= 10;
+    localStorage.setItem("motivation", motiv);
     // event.target.storyid = next story Id
     // event.target.id = choice Title
     setStory();
