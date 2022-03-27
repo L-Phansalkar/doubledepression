@@ -3,70 +3,75 @@
 /**************
  *   SLICE 1
  **************/
+setStory();
+updateCPSView(data.mood);
+function updateMotivationView() {
+  let motivationNum = document.getElementById("motivation_counter");
 
-function updateCoffeeView(coffeeQty) {
-  let coffeeNum = document.getElementById('coffee_counter');
-  coffeeNum.innerText = coffeeQty;
+  const motivationQty = localStorage.getItem("motivation");
+  motivationNum.innerText = motivationQty;
+
+  unlockChoices(motivationQty);
+  renderChoices(motivationQty);
 }
 
-function clickCoffee(data) {
-  data.coffee +=1;
-  updateCoffeeView(data.coffee);
-  renderProducers(data);
+function clickToMotivate() {
+  var num = localStorage.getItem("motivation");
+  num++;
+  localStorage.setItem("motivation", num);
+  updateMotivationView(localStorage.getItem("motivation"));
+}
+function setStory() {
+  if (localStorage.getItem("story") === 0) {
+    localStorage.setItem("story", 1);
+  }
+  let stId = localStorage.getItem("story") - 1;
+
+  let storyText = document.getElementById("story_container");
+  var story = window.data.story[stId].text;
+  storyText.innerText = story;
+}
+function unlockChoices(motivationQty) {
+  let stId = localStorage.getItem("story") - 1;
+  var story = window.data.story[stId];
+
+  for (let i = 0; i < story.choices.length; i++) {
+    let choice = story.choices[i];
+    let cost = choice.cost * 0.75;
+    if (motivationQty >= cost) {
+      choice.unlocked = true;
+    }
+  }
 }
 
 /**************
  *   SLICE 2
  **************/
 
-function unlockProducers(producers, coffeeCount) {
-  for (let i=0; i<producers.length; i++){
-    let machine = producers[i];
-    let cost = machine.price;
-    cost *= .5;
-    if (coffeeCount >= cost){
-      machine.unlocked = true
+function getUnlockedChoices() {
+  let activeChoices = [];
+  let stId = localStorage.getItem("story") - 1;
+  var choicesArr = window.data.story[stId].choices;
+  for (let i = 0; i < choicesArr.length; i++) {
+    let choice = choicesArr[i];
+    if (choice.unlocked === true) {
+      activeChoices.push(choice);
     }
   }
+  return activeChoices;
 }
-
-function getUnlockedProducers(data) {
-  let activeProducers = []
-  let producerArr = data.producers
-  for (let i=0; i<producerArr.length; i++){
-    let machine = producerArr[i];
-    if (machine.unlocked === true){
-      activeProducers.push(machine);
-    }
-  }
-  return activeProducers
-}
-
-function makeDisplayNameFromId(id) {
-  let sentence = id.toLowerCase();
-  let sentArr = sentence.split('_');
-  for(var i = 0; i< sentArr.length; i++){
-    sentArr[i] = sentArr[i][0].toUpperCase() + sentArr[i].slice(1);
-  }
-   return sentArr.join(" ")
-}
-
 
 // You shouldn't need to edit this function-- its tests should pass once you've written makeDisplayNameFromId
-function makeProducerDiv(producer) {
-  const containerDiv = document.createElement('div');
-  containerDiv.className = 'producer';
-  const displayName = makeDisplayNameFromId(producer.id);
-  const currentCost = producer.price;
+function makeChoicesDiv(choiceObj) {
+  const containerDiv = document.createElement("div");
+  containerDiv.className = "choice";
+  const currentCost = choiceObj.cost;
   const html = `
-  <div class="producer-column">
-    <div class="producer-title">${displayName}</div>
-    <button type="button" id="buy_${producer.id}">Buy</button>
+  <div class="choices-column">
+    <button type="button" id=${choiceObj.nextStoryId}>${choiceObj.title}</button>
   </div>
-  <div class="producer-column">
-    <div>Quantity: ${producer.qty}</div>
-    <div>Beats/second: ${producer.cps}</div>
-    <div>Cost: ${currentCost} beats</div>
+  <div class="choices-column">
+    <div> MOTIVATION NEEDED: ${currentCost} </div>
   </div>
   `;
   containerDiv.innerHTML = html;
@@ -76,16 +81,17 @@ function makeProducerDiv(producer) {
 function deleteAllChildNodes(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
-}}
+  }
+}
 
-function renderProducers(data) {
-  unlockProducers(data.producers, data.coffee);
-  let activeProducers = getUnlockedProducers(data);
-  const producerContainer = document.getElementById('producer_container');
-  deleteAllChildNodes(producerContainer);
-  for (let i=0; i<activeProducers.length; i++){
-    let producerObj = activeProducers[i];
-    producerContainer.appendChild(makeProducerDiv(producerObj));
+function renderChoices(motivationQty) {
+  unlockChoices(motivationQty);
+  let activeChoices = getUnlockedChoices();
+  const choiceContainer = document.getElementById("choice_container");
+  deleteAllChildNodes(choiceContainer);
+  for (let i = 0; i < activeChoices.length; i++) {
+    let choiceObj = activeChoices[i];
+    choiceContainer.appendChild(makeChoicesDiv(choiceObj));
   }
 }
 
@@ -93,66 +99,72 @@ function renderProducers(data) {
  *   SLICE 3
  **************/
 
-function getProducerById(data, producerId) {
-  let producerArr = data.producers;
-  for (let i=0; i<producerArr.length; i++){
-    let currentProducer = producerArr[i];
-    if (currentProducer.id === producerId){
-      return currentProducer
-    }
-  }
+function getChoicesByStoryId() {
+  let stId = window.data.storyId - 1;
+  var choices = window.data.story[stId].choices;
+  return choices;
+}
+//   for (let i = 0; i < producerArr.length; i++) {
+//     let currentProducer = producerArr[i];
+//     if (currentProducer.id === producerId) {
+//       return currentProducer;
+//     }
+//   }
+// }
+
+function canAffordChoice(data, producerId) {
+  let currentProducer = getProducerById(data, producerId);
+  if (currentProducer.price <= data.coffee) {
+    return true;
+  } else return false;
 }
 
-function canAffordProducer(data, producerId) {
-  let currentProducer = getProducerById(data,producerId);
-  if (currentProducer.price <= data.coffee){
-    return true
-  } else return false
+function updateCPSView(mood) {
+  const cpsIndicator = document.getElementById("cps");
+  cpsIndicator.innerText = mood;
 }
 
-function updateCPSView(cps) {
-  const cpsIndicator = document.getElementById('cps');
-  cpsIndicator.innerText = cps;
-}
-
-function updatePrice(oldPrice) {
-  oldPrice *= 1.25;
-  return Math.floor(oldPrice);
-}
-
-function attemptToBuyProducer(data, producerId) {
-  let yesNo = canAffordProducer(data,producerId);
-  if(yesNo == false){
-    return yesNo;
-  } else {
-    let machine  = getProducerById(data,producerId);
-    machine.qty += 1;
-    data.coffee -= machine.price;
-    machine.price = updatePrice(machine.price);
-    data.totalCPS += machine.cps
-    return yesNo;
-  }
-}
+// function attemptToBuyChoice(data, producerId) {
+//   let yesNo = canAffordProducer(data, producerId);
+//   if (yesNo == false) {
+//     return yesNo;
+//   } else {
+//     let machine = getProducerById(data, producerId);
+//     machine.qty += 1;
+//     data.coffee -= machine.price;
+//     machine.price = updatePrice(machine.price);
+//     data.totalCPS += machine.cps;
+//     return yesNo;
+//   }
+// }
 
 function buyButtonClick(event, data) {
-  if (event.target.tagName === "BUTTON"){
-    const buyMachine = event.target.id;
-    const machineId = buyMachine.slice(4);
-    if (canAffordProducer(data, machineId) === false){
-      window.alert("Not stressed enough - pile more on first!")
-    } else {
-      attemptToBuyProducer(data,machineId);
-      renderProducers(data);
-      updateCoffeeView(data.coffee);
-      updateCPSView(data.totalCPS);
-    }
+  if (event.target.tagName === "BUTTON") {
+    const num = event.target.id;
+    localStorage.setItem("story", num);
+    // event.target.storyid = next story Id
+    // event.target.id = choice Title
+    setStory();
+    const choiceContainer = document.getElementById("choice_container");
+    deleteAllChildNodes(choiceContainer);
+    renderChoices();
+    updateMotivationView();
+    updateCPSView(data.totalCPS);
   }
 }
 
 function tick(data) {
-  data.coffee += data.totalCPS;
-  updateCoffeeView(data.coffee);
-  renderProducers(data);
+  var num = JSON.parse(localStorage.getItem("motivation"));
+  const mood = data.mood;
+  if (num) {
+    console.log("hi");
+    num += mood;
+    localStorage.setItem("motivation", num);
+    updateMotivationView();
+    //localStorage.setItem("motivation", num);
+    //updateMotivationView();
+    //renderProducers(data);
+  }
 }
 
 /*************************
@@ -169,24 +181,24 @@ function tick(data) {
 
 // How does this check work? Node gives us access to a global variable /// called `process`, but this variable is undefined in the browser. So,
 // we can see if we're in node by checking to see if `process` exists.
-if (typeof process === 'undefined') {
+if (typeof process === "undefined") {
   // Get starting data from the window object
   // (This comes from data.js)
   const data = window.data;
 
   // Add an event listener to the giant coffee emoji
-  const bigCoffee = document.getElementById('big_coffee');
-  bigCoffee.addEventListener('click', () => clickCoffee(data));
+  const bigEnergy = document.getElementById("big_coffee");
+  bigEnergy.addEventListener("click", () => clickToMotivate(data));
 
   // Add an event listener to the container that holds all of the producers
   // Pass in the browser event and our data object to the event listener
-  const producerContainer = document.getElementById('producer_container');
-  producerContainer.addEventListener('click', event => {
+  const choiceContainer = document.getElementById("choice_container");
+  choiceContainer.addEventListener("click", (event) => {
     buyButtonClick(event, data);
   });
 
   // Call the tick function passing in the data object once per second
-  setInterval(() => tick(data), 1000);
+  setInterval(() => tick(data), 10000);
 }
 // Meanwhile, if we aren't in a browser and are instead in node
 // we'll need to exports the code written here so we can import and
@@ -194,20 +206,15 @@ if (typeof process === 'undefined') {
 // We just need this to run the tests in Mocha.
 else if (process) {
   module.exports = {
-    updateCoffeeView,
-    clickCoffee,
-    unlockProducers,
-    getUnlockedProducers,
-    makeDisplayNameFromId,
-    makeProducerDiv,
+    updateMotivationView,
+    clickToMotivate,
+    unlockChoices,
+    getUnlockedChoices,
+    makeChoicesDiv,
     deleteAllChildNodes,
-    renderProducers,
+    renderChoices,
     updateCPSView,
-    getProducerById,
-    canAffordProducer,
-    updatePrice,
-    attemptToBuyProducer,
     buyButtonClick,
-    tick
+    tick,
   };
 }

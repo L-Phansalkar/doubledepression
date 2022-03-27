@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-h1{
+h1 {
   text-align: center;
   color: red;
 }
@@ -13,7 +13,7 @@ body {
   width: 100%;
   height: 100vh;
   min-width: 650px;
-  background-color:burlywood;
+  background-color: burlywood;
 }
 .column {
   margin: 10px;
@@ -58,15 +58,15 @@ body {
   font-size: 20px;
 }
 
-#producer_container {
+#choice_container {
   padding: 10px;
   overflow: auto;
   background-color: rgb(148, 177, 46);
-  border: 2px red solid;
+  border: 2px rgb(251, 2, 231) solid;
   border-radius: 5px;
 }
 
-.producer {
+.choice {
   margin-bottom: 5px;
   padding: 10px;
   border: 2px solid grey;
@@ -74,17 +74,47 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.producer-column {
+.choice-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.producer-title {
+.choice-title {
   font-size: 20px;
 }
 
-.producer button {
+.choice button {
+  font-size: 15px;
+  width: 50px;
+}
+#story_container {
+  padding: 10px;
+  overflow: auto;
+  background-color: rgb(193, 124, 20);
+  border: 2px rgb(41, 195, 201) solid;
+  border-radius: 5px;
+}
+
+.story {
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.story-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.story-title {
+  font-size: 20px;
+}
+
+.story button {
   font-size: 15px;
   width: 50px;
 }
