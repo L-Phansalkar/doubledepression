@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "mocha script_test.js --watch",
-    "start": "node index.js"
+    "start": "http-server . -p 8000 -o -c-1"
   },
   "author": "",
   "license": "ISC",
