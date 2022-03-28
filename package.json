@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "test": "mocha script_test.js --watch",
-    "start": "http-server . -p 8000 -o -c-1"
+    "test": "mocha script_test.js --watch"
   },
   "author": "",
   "license": "ISC",
