@@ -68,7 +68,7 @@ function makeChoicesDiv(choiceObj) {
   const currentCost = choiceObj.cost;
   const html = `
   <div class="choices-column">
-    <button type="button" id=${choiceObj.nextStoryId}>${choiceObj.title}</button>
+    <button type="button" id=${choiceObj.nextStoryId} value="${currentCost}">${choiceObj.title}</button>
   </div>
   <div class="choices-column">
     <div> MOTIVATION NEEDED: ${currentCost} </div>
@@ -105,14 +105,14 @@ function updateCPSView(mood) {
 }
 
 function buyButtonClick(event, data) {
-  if (event.target.tagName === "BUTTON") {
+  let motiv = localStorage.getItem("motivation");
+  motiv -= event.target.value;
+  if (event.target.tagName === "BUTTON" && motiv > 0) {
     const num = event.target.id;
     localStorage.setItem("story", num);
-    let motiv = localStorage.getItem("motivation");
-    motiv /= 10;
-    localStorage.setItem("motivation", motiv);
-    // event.target.storyid = next story Id
-    // event.target.id = choice Title
+    var moo = localStorage.getItem("motivation");
+    moo /= 10;
+    localStorage.setItem("motivation", moo);
     setStory();
     const choiceContainer = document.getElementById("choice_container");
     deleteAllChildNodes(choiceContainer);
