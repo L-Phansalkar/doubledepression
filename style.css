@@ -7,6 +7,8 @@ h1 {
 }
 body {
   margin: 0px;
+  background-color: rgb(7, 6, 6);
+  color: rgb(58, 58, 167);
 }
 .column-container {
   display: flex;
@@ -23,6 +25,14 @@ body {
   flex-direction: column;
   align-items: center;
 }
+.row {
+  margin: 10px;
+  margin-top: 0px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 .container {
   width: 100%;
@@ -37,84 +47,73 @@ body {
   justify-content: center;
 }
 
-.column-header {
+/* .column-header {
   font-size: 25px;
   position: relative;
   background-color: orangered;
   top: 8px;
-}
-#big_coffee {
+} */
+/* #big_coffee {
   user-select: none;
   font-size: 128px;
   cursor: pointer;
-}
+} */
 
 .counter-container {
   font-size: 30px;
   margin: 10px;
+  color: rgb(113, 160, 192);
 }
 
 .cps-container {
   font-size: 20px;
+  color: rgb(235, 235, 235);
 }
 
 #choice_container {
+  display: inline;
   padding: 10px;
-  overflow: auto;
+  overflow-wrap: true;
   background-color: rgb(148, 177, 46);
   border: 2px rgb(251, 2, 231) solid;
   border-radius: 5px;
 }
 
 .choice {
-  margin-bottom: 5px;
-  padding: 10px;
-  border: 2px solid grey;
-  border-radius: 4px;
   display: flex;
   justify-content: space-between;
 }
-.choice-column {
+/* .choice-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
+} */
 
-.choice-title {
+/* .choice-title {
   font-size: 20px;
-}
+} */
 
-.choice button {
+/* .choice button {
   font-size: 15px;
   width: 50px;
-}
+} */
 #story_container {
   padding: 10px;
-  overflow: auto;
   background-color: rgb(193, 124, 20);
   border: 2px rgb(41, 195, 201) solid;
   border-radius: 5px;
 }
 
-.story {
+/* .story {
   margin-bottom: 5px;
   padding: 10px;
   border: 2px solid grey;
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
-}
-.story-column {
+} */
+/* .story-column {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.story-title {
-  font-size: 20px;
-}
-
-.story button {
-  font-size: 15px;
-  width: 50px;
-}
+} */

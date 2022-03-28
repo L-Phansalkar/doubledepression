@@ -118,7 +118,7 @@ function buyButtonClick(event, data) {
     deleteAllChildNodes(choiceContainer);
     renderChoices();
     updateMotivationView();
-    updateCPSView(data.totalCPS);
+    updateCPSView(data.mood);
   }
 }
 
